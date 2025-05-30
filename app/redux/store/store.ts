@@ -1,4 +1,3 @@
-// src/store.ts
 import { configureStore } from '@reduxjs/toolkit';
 import quizSettingsReducer from '../reducers/quizSettingsSlice';
 import quizReducer from '../reducers/quizSlice';

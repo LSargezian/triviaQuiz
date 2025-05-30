@@ -1,11 +1,5 @@
-// src/features/quizSettings/quizSettingsSlice.ts
 import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
-
-interface QuizSettings {
-    categoryId: number | null;
-    difficulty: 'easy' | 'medium' | 'hard' | null;
-    amount: number;
-}
+import type { QuizSettings } from '~/types';
 
 const initialState: QuizSettings = {
     categoryId: null,

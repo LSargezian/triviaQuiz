@@ -1,18 +1,16 @@
-// src/features/quiz/quizSlice.ts
 import { createSlice, createAsyncThunk, type PayloadAction } from '@reduxjs/toolkit';
-import client from "~/apollo/client";
+import client from '~/apollo/client';
+import { GET_QUIZ } from '~/graphql/operations/queries/getQuiz';
 
-import { GET_QUIZ } from '~/graphql/queries';
-
-interface Question {
+export interface Question {
     id: string;
     question: string;
     all_answers: string[];
 }
 
-interface QuizState {
+export interface QuizState {
     questions: Question[];
-    answers: Record<string, string>; // questionId -> selected answer
+    answers: Record<string, string>;
     loading: boolean;
     error: string | null;
 }
@@ -25,14 +23,19 @@ const initialState: QuizState = {
 };
 
 export const fetchQuiz = createAsyncThunk(
-    'quiz/fetchQuiz',
+    'QuizContainer/fetchQuiz',
     async (params: { categoryId: number; difficulty: string; amount: number }) => {
-        const { categoryId, difficulty, amount } = params;
+        console.log('GraphQL query variables:', params);
         const { data } = await client.query({
             query: GET_QUIZ,
-            variables: { category: categoryId, difficulty, amount },
+            variables: {
+                category: params.categoryId,
+                difficulty: params.difficulty,
+                amount: params.amount,
+            },
             fetchPolicy: 'no-cache',
         });
+        console.log('GraphQL response:', data);
         return data.quiz.questions;
     }
 );
@@ -51,13 +54,11 @@ const quizSlice = createSlice({
             state.error = null;
         },
     },
-    extraReducers: (builder) => {
+    extraReducers: builder => {
         builder
-            .addCase(fetchQuiz.pending, (state) => {
+            .addCase(fetchQuiz.pending, state => {
                 state.loading = true;
                 state.error = null;
-                state.questions = [];
-                state.answers = {};
             })
             .addCase(fetchQuiz.fulfilled, (state, action) => {
                 state.loading = false;
@@ -65,7 +66,7 @@ const quizSlice = createSlice({
             })
             .addCase(fetchQuiz.rejected, (state, action) => {
                 state.loading = false;
-                state.error = action.error.message ?? 'Failed to load quiz';
+                state.error = action.error.message ?? 'Error fetching QuizContainer';
             });
     },
 });

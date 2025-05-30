@@ -1,14 +1,4 @@
-// src/graphql/queries.ts
-import { gql } from '@apollo/client';
-
-export const GET_CATEGORIES = gql`
-    query GetCategories {
-        categories {
-            id
-            name
-        }
-    }
-`;
+import { gql } from "@apollo/client";
 
 export const GET_QUIZ = gql`
     query GetQuiz($category: Int!, $difficulty: String!, $amount: Int!) {

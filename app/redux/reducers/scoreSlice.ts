@@ -1,8 +1,23 @@
-// src/features/score/scoreSlice.ts
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import client from "~/apollo/client";
-import { SCORE_QUIZ } from '~/graphql/mutations';
-import type { ScoreInput, QuizScore } from '~/types';
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import client from "../../apollo/client";
+import { SCORE_QUIZ } from '~/graphql/operations/mutations/scoreQuiz';
+
+export interface ScoreInput {
+    questionId: string;
+    answer: string;
+}
+
+export interface QuizScore {
+    score: number;
+    total: number;
+    detailed: {
+        question: string;
+        correct: string;
+        selected: string;
+        isCorrect: boolean;
+    }[];
+}
+
 
 interface ScoreState {
     results: QuizScore | null;
@@ -13,17 +28,24 @@ interface ScoreState {
 const initialState: ScoreState = {
     results: null,
     loading: false,
-    error: null,
+    error: null
 };
 
 export const submitScore = createAsyncThunk(
     'score/submitScore',
-    async (answers: ScoreInput[]) => {
-        const { data } = await client.mutate({
-            mutation: SCORE_QUIZ,
-            variables: { answers },
-        });
-        return data.scoreQuiz;
+    async (answers: ScoreInput[], { rejectWithValue }) => {
+        console.log("Submitting answers:", answers);
+
+        try {
+            const { data } = await client.mutate({
+                mutation: SCORE_QUIZ,
+                variables: { answers },
+            });
+            return data.scoreQuiz as QuizScore;
+        } catch (error: any) {
+            console.error('Score submission failed:', error);
+            return rejectWithValue(error.message || 'Submission failed');
+        }
     }
 );
 
@@ -31,27 +53,27 @@ const scoreSlice = createSlice({
     name: 'score',
     initialState,
     reducers: {
-        resetScore(state) {
+        resetScore: state => {
             state.results = null;
-            state.loading = false;
             state.error = null;
-        },
+            state.loading = false;
+        }
     },
-    extraReducers: (builder) => {
+    extraReducers: builder => {
         builder
-            .addCase(submitScore.pending, (state) => {
+            .addCase(submitScore.pending, state => {
                 state.loading = true;
                 state.error = null;
             })
             .addCase(submitScore.fulfilled, (state, action) => {
-                state.loading = false;
                 state.results = action.payload;
+                state.loading = false;
             })
             .addCase(submitScore.rejected, (state, action) => {
+                state.error = action.error.message || 'Error submitting score';
                 state.loading = false;
-                state.error = action.error.message ?? 'Failed to submit score';
             });
-    },
+    }
 });
 
 export const { resetScore } = scoreSlice.actions;
