@@ -2,15 +2,17 @@
 import { gql } from '@apollo/client';
 
 export const SCORE_QUIZ = gql`
-    mutation ScoreQuiz($answers: [AnswerInput!]!) {
+    mutation ScoreQuiz($answers: [ScoreInput!]!) {
         scoreQuiz(answers: $answers) {
-            correctCount
-            totalCount
-            correctAnswers {
+            score
+            total
+            detailed {
                 question
-                correctAnswer
-                userAnswer
+                correct
+                selected
+                isCorrect
             }
         }
     }
+
 `;

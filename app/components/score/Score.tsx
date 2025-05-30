@@ -26,7 +26,7 @@ const Score: React.FC = () => {
             <h2 className="text-2xl font-bold">Your Score: {correctCount} / {totalCount}</h2>
 
             <div className="space-y-3 text-left">
-                {correctAnswers.map(({ question, correctAnswer, userAnswer }, idx) => (
+                {correctAnswers?.map(({ question, correctAnswer, userAnswer }, idx) => (
                     <div
                         key={idx}
                         className={`p-3 border rounded-md ${
