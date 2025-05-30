@@ -1,5 +1,5 @@
 
-# 🎮 Trivia Client ( JavaScript ) 
+# 🎮 Trivia Client ( TypeScript ) 
 
 A modern React client for the Trivia App, built with **React Router v7**, **Apollo Client**, **Redux Toolkit**, and **TailwindCSS**. Connects to a GraphQL backend to deliver a responsive and interactive trivia quiz experience.
 
