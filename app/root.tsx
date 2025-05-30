@@ -6,9 +6,13 @@ import {
   Scripts,
   ScrollRestoration,
 } from "react-router";
-
 import type { Route } from "./+types/root";
 import "./app.css";
+import { ApolloProvider } from "@apollo/client";
+import client from "~/apollo/client";
+
+import { Provider as ReduxProvider } from "react-redux";
+import { store } from "~/redux/store/store";  // Your redux store from earlier
 
 export const links: Route.LinksFunction = () => [
   { rel: "preconnect", href: "https://fonts.googleapis.com" },
@@ -25,25 +29,31 @@ export const links: Route.LinksFunction = () => [
 
 export function Layout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en">
-    <head>
-      <script src="http://localhost:5173"></script>
-      <meta charSet="utf-8"/>
-      <meta name="viewport" content="width=device-width, initial-scale=1"/>
-      <Meta/>
-      <Links/>
-    </head>
-    <body>
-    {children}
-    <ScrollRestoration />
-        <Scripts />
+      <html lang="en">
+      <head>
+        <script src="http://localhost:5173"></script>
+        <meta charSet="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <Meta />
+        <Links />
+      </head>
+      <body>
+      {children}
+      <ScrollRestoration />
+      <Scripts />
       </body>
-    </html>
+      </html>
   );
 }
 
 export default function App() {
-  return <Outlet />;
+  return (
+      <ApolloProvider client={client}>
+        <ReduxProvider store={store}>
+          <Outlet />
+        </ReduxProvider>
+      </ApolloProvider>
+  );
 }
 
 export function ErrorBoundary({ error }: Route.ErrorBoundaryProps) {
@@ -54,23 +64,23 @@ export function ErrorBoundary({ error }: Route.ErrorBoundaryProps) {
   if (isRouteErrorResponse(error)) {
     message = error.status === 404 ? "404" : "Error";
     details =
-      error.status === 404
-        ? "The requested page could not be found."
-        : error.statusText || details;
+        error.status === 404
+            ? "The requested page could not be found."
+            : error.statusText || details;
   } else if (import.meta.env.DEV && error && error instanceof Error) {
     details = error.message;
     stack = error.stack;
   }
 
   return (
-    <main className="pt-16 p-4 container mx-auto">
-      <h1>{message}</h1>
-      <p>{details}</p>
-      {stack && (
-        <pre className="w-full p-4 overflow-x-auto">
+      <main className="pt-16 p-4 container mx-auto">
+        <h1>{message}</h1>
+        <p>{details}</p>
+        {stack && (
+            <pre className="w-full p-4 overflow-x-auto">
           <code>{stack}</code>
         </pre>
-      )}
-    </main>
+        )}
+      </main>
   );
 }

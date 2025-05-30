@@ -1,3 +1,4 @@
+// src/types.ts
 export interface Category {
     id: number;
     name: string;
@@ -5,14 +6,8 @@ export interface Category {
 
 export interface Question {
     id: string;
-    category: number;
-    difficulty: string;
     question: string;
     all_answers: string[];
-}
-
-export interface QuizResponse {
-    questions: Question[];
 }
 
 export interface ScoreInput {
@@ -20,13 +15,14 @@ export interface ScoreInput {
     answer: string;
 }
 
+export interface CorrectAnswer {
+    question: string;
+    correctAnswer: string;
+    userAnswer: string;
+}
+
 export interface QuizScore {
-    score: number;
-    total: number;
-    detailed: {
-        question: string;
-        selected: string;
-        correct: string;
-        isCorrect: boolean;
-    }[];
+    correctCount: number;
+    totalCount: number;
+    correctAnswers: CorrectAnswer[];
 }
