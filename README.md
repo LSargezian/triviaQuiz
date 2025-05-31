@@ -21,19 +21,20 @@ A modern React client for the Trivia App, built with **React Router v7**, **Apol
 1. **Clone the repository**
 
    ```bash
-   git clone <your-repo-url>
+   git clone
    cd trivia
 
 
 2. **Install dependencies**
-   npm install
+  - npm install
 
 
 3. **Start development server**
-   npm run dev
+  - npm run dev
+
+## 📸 ScreenShots
 
 ![Screenshot 2025-05-30 at 3 29 44 PM](https://github.com/user-attachments/assets/1d9e8d52-3025-4d78-922a-10a4f41a8865)
-
 
 ![Screenshot 2025-05-30 at 3 29 49 PM](https://github.com/user-attachments/assets/4959fafc-972d-46fe-aca8-1cd1a330fe46)
 
