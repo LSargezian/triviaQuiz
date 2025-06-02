@@ -1,14 +1,21 @@
 import React from "react";
 
-export interface QuizSettings {
-    categoryId: number | null;
-    difficulty: 'easy' | 'medium' | 'hard' | null;
-    amount: number;
+export interface CategoryDropdownProps {
+    id: string;
+    value: string | number;
+    onChange: (event: React.ChangeEvent<HTMLSelectElement>) => void;
+    options: Category[];
 }
 
 export interface Category {
     id: number;
     name: string;
+}
+
+export interface QuizSettings {
+    categoryId: number | null;
+    difficulty: 'easy' | 'medium' | 'hard' | null;
+    amount: number;
 }
 
 export interface CorrectAnswer {
@@ -23,38 +30,20 @@ export interface QuizScore {
     correctAnswers: CorrectAnswer[];
 }
 
-export interface CategoryDropdownProps {
-    id: string;
-    value: string | number;
-    onChange: (event: React.ChangeEvent<HTMLSelectElement>) => void;
-    options: Category[];
-}
-
-export interface DifficultyRadioGroupProps {
-    value: 'easy' | 'medium' | 'hard' | null;
-    onChange: (difficulty: 'easy' | 'medium' | 'hard') => void;
-}
-
 export interface QuizAnswer {
     questionId: string;
     answer: string;
 }
 
-export interface QuizQuestion {
+export interface Question {
     id: string;
     question: string;
     all_answers: string[];
 }
 
-export interface QuizResultEntry {
-    question: string;
-    selected: string;
-    correct: string;
-    isCorrect: boolean;
-}
-
-export interface QuizResults {
-    score: number;
-    total: number;
-    detailed: QuizResultEntry[];
+export interface QuizState {
+    questions: Question[];
+    answers: Record<string, string>;
+    loading: boolean;
+    error: string | null;
 }

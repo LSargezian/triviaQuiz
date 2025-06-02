@@ -1,12 +1,5 @@
 import React from 'react';
-import type { QuizQuestion } from '~/types';
-
-interface QuestionCardProps {
-    question: QuizQuestion;
-    selectedAnswer?: string;
-    index: number;
-    onAnswer: (questionId: string, answer: string) => void;
-}
+import type { QuestionCardProps } from '~/components/Quiz/types';
 
 const QuestionCard = React.memo(({ question, selectedAnswer, index, onAnswer }: QuestionCardProps) => {
     return (

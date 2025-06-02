@@ -6,6 +6,8 @@ import { submitScore, resetScore } from '~/redux/reducers/scoreSlice';
 import type { RootState } from '~/redux/store/store';
 import QuestionCard from './QuestionCard';
 import ResultsSummary from './ResultsSummary';
+import type { FormattedAnswer } from '~/components/Quiz/types';
+import {resetSettings} from "~/redux/reducers/quizSettingsSlice";
 
 function QuizContainer() {
     const dispatch = useAppDispatch();
@@ -19,13 +21,16 @@ function QuizContainer() {
     };
 
     const handleSubmit = () => {
-        const formattedAnswers = Object.entries(answers).map(([questionId, answer]) => ({ questionId, answer }));
+        const formattedAnswers: FormattedAnswer[] = Object.entries(answers).map(
+            ([questionId, answer]) => ({ questionId, answer })
+        );
         dispatch(submitScore(formattedAnswers));
     };
 
     const handleReset = () => {
         dispatch(resetScore());
         dispatch(resetQuiz());
+        dispatch(resetSettings());
     };
 
     if (loading) return <p className="text-center mt-4">Loading questions...</p>;

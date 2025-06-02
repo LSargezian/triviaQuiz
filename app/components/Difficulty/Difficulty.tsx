@@ -3,15 +3,14 @@ import { useSelector } from 'react-redux';
 import { setDifficulty } from '~/redux/reducers/quizSettingsSlice';
 import { type RootState } from '~/redux/store/store';
 import { useAppDispatch } from '~/redux/store/hooks';
-import type { DifficultyRadioGroupProps } from '~/types';
+import { DIFFICULTY_LEVELS, type Difficulty, type DifficultyRadioGroupProps } from '~/components/Difficulty/types';
 
-const DIFFICULTY_LEVELS = ['easy', 'medium', 'hard'] as const;
 
 function QuizDifficultySelect() {
     const dispatch = useAppDispatch();
     const selectedDifficulty = useSelector((state: RootState) => state.quizSettings.difficulty);
 
-    const handleChange = (difficulty: 'easy' | 'medium' | 'hard') => {
+    const handleChange = (difficulty: Difficulty) => {
         dispatch(setDifficulty(difficulty));
     };
 

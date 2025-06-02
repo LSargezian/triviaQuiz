@@ -1,9 +1,5 @@
 import React from 'react';
-
-interface StartQuizButtonProps {
-    onClick: () => void;
-    disabled: boolean;
-}
+import type { StartQuizButtonProps } from '~/components/StartQuizButton/types';
 
 function StartQuizButton({ onClick, disabled }: StartQuizButtonProps) {
     return (

@@ -1,19 +1,7 @@
 import { createSlice, createAsyncThunk, type PayloadAction } from '@reduxjs/toolkit';
 import client from '~/apollo/client';
 import { GET_QUIZ } from '~/graphql/operations/queries/getQuiz';
-
-export interface Question {
-    id: string;
-    question: string;
-    all_answers: string[];
-}
-
-export interface QuizState {
-    questions: Question[];
-    answers: Record<string, string>;
-    loading: boolean;
-    error: string | null;
-}
+import type {QuizState} from "~/types";
 
 const initialState: QuizState = {
     questions: [],

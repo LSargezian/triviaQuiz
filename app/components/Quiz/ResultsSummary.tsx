@@ -1,10 +1,5 @@
 import React from 'react';
-import type { QuizResults } from '~/types';
-
-interface Props {
-    results: QuizResults;
-    onReset: () => void;
-}
+import type { ResultsSummaryProps } from '~/components/Quiz/types';
 
 function getBarColor(score: number) {
     if (score <= 1) return 'bg-red-500';
@@ -12,7 +7,7 @@ function getBarColor(score: number) {
     return 'bg-green-500';
 }
 
-function ResultsSummary({ results, onReset }: Props) {
+function ResultsSummary({ results, onReset }: ResultsSummaryProps) {
     return (
         <div className="bg-white p-6 rounded-lg shadow space-y-4">
             <h2 className="text-xl font-bold text-center">
@@ -52,5 +47,4 @@ function ResultsSummary({ results, onReset }: Props) {
         </div>
     );
 }
-
 export default ResultsSummary;

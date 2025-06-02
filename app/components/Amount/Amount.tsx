@@ -3,8 +3,9 @@ import { useSelector } from 'react-redux';
 import { setAmount } from '~/redux/reducers/quizSettingsSlice';
 import { type RootState } from '~/redux/store/store';
 import { useAppDispatch } from '~/redux/store/hooks';
+import type { QuestionAmount } from '~/components/Amount/types';
 
-const QUESTION_OPTIONS = [1, 2, 3, 4, 5];
+const QUESTION_OPTIONS: QuestionAmount[] = [1, 2, 3, 4, 5];
 
 function AmountDropdown() {
     const dispatch = useAppDispatch();
@@ -35,5 +36,6 @@ function AmountDropdown() {
         </div>
     );
 }
+
 
 export default AmountDropdown;
